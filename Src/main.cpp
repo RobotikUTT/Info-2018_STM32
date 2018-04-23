@@ -173,7 +173,7 @@ int main(void)
   while (1)
   {
     blinkTimer.Update();
-    if (!flagArduinoConnected) {
+    if (!flagConnected) {
         //SerialSender::SerialSend(SERIAL_INFO, "%s", ARDUINO_ID);
         readOrder();
     } else {
@@ -182,17 +182,6 @@ int main(void)
         // asservSerialReadTimer.Update();
     }
     CanSender::canSendTask();
-
-#ifdef SERIAL_DEBUG
-    if ( HAL_GetTick() - before > SERIAL_DELAY)
-    {
-      g_serial.print(get_left_encoder());
-      g_serial.print("      ");
-      g_serial.print(get_right_encoder());
-      g_serial.print("\n");
-      before = HAL_GetTick();
-    }
-#endif
     
   /* USER CODE END WHILE */
 
