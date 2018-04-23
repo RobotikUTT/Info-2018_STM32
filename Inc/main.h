@@ -46,10 +46,22 @@
 /* USER CODE BEGIN Includes */
 // #include <stdio.h>
 // #include <iostream>
-#include <cstring>
-#include "serial.h"
-#include "pwm.h"
-#include "can.h"
+// #include <cstring>
+// #include "constantes.h"
+
+// #include "pins.h"
+// #include "parameters.h"
+// #include "Timer.h"
+// #include "brushlessMotor.h"
+// #include "motor.h"
+// #include "block.h"
+// #include "compat.h"
+// #include "protocol.h"
+// #include "control.h"
+// #include "emergency.h"
+
+
+
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
@@ -60,14 +72,10 @@
 #define ENC_R_B_GPIO_Port GPIOA
 #define ENC_L_B_Pin GPIO_PIN_4
 #define ENC_L_B_GPIO_Port GPIOA
-#define EN_L_A_Pin GPIO_PIN_6
-#define EN_L_A_GPIO_Port GPIOA
+#define ENC_L_A_Pin GPIO_PIN_6
+#define ENC_L_A_GPIO_Port GPIOA
 #define MOT_L_EN_Pin GPIO_PIN_7
 #define MOT_L_EN_GPIO_Port GPIOA
-#define SWDIO_Pin GPIO_PIN_13
-#define SWDIO_GPIO_Port GPIOA
-#define SWCLK_Pin GPIO_PIN_14
-#define SWCLK_GPIO_Port GPIOA
 #define TEST_LED_Pin GPIO_PIN_3
 #define TEST_LED_GPIO_Port GPIOB
 #define MOT_R_EN_Pin GPIO_PIN_4
@@ -86,9 +94,8 @@
 
 /* USER CODE BEGIN Private defines */
 
-#define L_ENC_TIM TIM3
-#define R_ENC_TIM TIM2
 #define SERIAL_DELAY 50
+
 
 /* USER CODE END Private defines */
 

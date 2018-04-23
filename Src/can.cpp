@@ -4,24 +4,30 @@
 
 /** Constructor **/
 /*****************/
+uint16_t g_nb_msg_received = 0;
 
 Can::Can(CAN_HandleTypeDef* can, uint16_t id)
 {
 	m_can_interface_ptr = can;
+
+
 	// tx message init
 	m_tx_msg.StdId = id;
-    m_tx_msg.ExtId = id;
-  	m_tx_msg.IDE = CAN_ID_STD;
-  	m_tx_msg.RTR = CAN_RTR_DATA;
-  	m_tx_msg.DLC = 8;
+  	m_tx_msg.ExtId = id;
+	m_tx_msg.IDE = CAN_ID_STD;
+	m_tx_msg.RTR = CAN_RTR_DATA;
+	m_tx_msg.DLC = 8;
 	
 	// rx message init  	
 	m_rx_msg.DLC = 8;
-	// m_rx_msg.IDE = CAN_ID_STD;
-	// m_rx_msg.RTR = CAN_RTR_DATA;
-	// m_rx_msg.FMI = 2;
+	m_rx_msg.IDE = CAN_ID_STD;
+	m_rx_msg.RTR = CAN_RTR_DATA;
+	m_rx_msg.FMI = 0;
+	m_rx_msg.FIFONumber = CAN_FIFO0;
+
 	m_can_interface_ptr->pTxMsg = &m_tx_msg;
 	m_can_interface_ptr->pRxMsg = &m_rx_msg;
+	copy_msg(m_tx_msg.Data,prev_msg,8);
 
 }
 
@@ -32,104 +38,59 @@ Can::~Can()
 /** Public Methods **/
 /********************/
 
-void Can::write(uint8_t* msg)
+HAL_StatusTypeDef Can::write(uint8_t* msg)
 {
  
-
-  for( int i = 0; i < 8; i++)
-  {
-  	m_tx_msg.Data[i] = msg[i];
-  } 
+  copy_msg(m_tx_msg.Data,msg,8);
   
-  // hcan.pTxMsg = &m_tx_msg;
-
-  HAL_StatusTypeDef can_status;
-  // can_status = HAL_CAN_Transmit(m_can_interface_ptr,0x0FFF);
+  return HAL_CAN_Transmit_IT(m_can_interface_ptr);
   
-  switch(can_status)
-  {
-
-
-    case HAL_OK:
-	    // g_serial.print("CAN SENT OK\n");
-	    // HAL_UART_Transmit(&huart2, "CAN SEND OK", 12, 0xFFFF);
-    break;
-
-    case HAL_ERROR:
-    // strcpy(msg, "CAN SENT ERROR\nERROR CODE:" );
-    	// HAL_UART_Transmit(&huart2, "CAN SEND ER", 12, 0xFFFF);
-    //send_PC_UART_DATA((long)HAL_CAN_GetError(&hcan));
-    // send_uint32(HAL_CAN_GetError(&hcan));
-    // strcpy(msg, "\n" );
-    // HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
-    	break;
-
-    case HAL_BUSY:
-    	// HAL_UART_Transmit(&huart2, "CAN SEND BS", 12, 0xFFFF);
-    // strcpy(msg, "CAN BUSY\n");
-    // HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
-    	break;
-
-    case HAL_TIMEOUT:
-    	// HAL_UART_Transmit(&huart2, "CAN SEND TO", 12, 0xFFFF);
-    // strcpy(msg, "CAN TIMEOUT\n");
-    // HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
-    	break;
-
-  }
 }
 
 uint8_t* Can::read()
 {
-
-  // HAL_StatusTypeDef can_status;
-  // can_status = HAL_CAN_Receive(m_can_interface_ptr, 50,0x0FFF);
-  // switch(can_status)
-  // {
-  //   case HAL_OK:
-  //   strcpy(msg, "CAN RECEIVED OK\n");
-  //   m_rx_msg = *hcan.pRxMsg;
-  //   HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
-  //   break;
-
-  //   case HAL_ERROR:
-  //   strcpy(msg, "CAN RECEIVED ERROR\nERROR CODE:" );
-  //   HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
-  //   //send_PC_UART_DATA((long)HAL_CAN_GetError(&hcan));
-  //   send_uint32(HAL_CAN_GetError(&hcan));
-  //   strcpy(msg, "\n" );
-  //   HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
-  //   break;
-
-  //   case HAL_BUSY:
-  //   strcpy(msg, "CAN BUSY\n");
-  //   HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
-  //   break;
-
-  //   case HAL_TIMEOUT:
-  //   strcpy(msg, "CAN TIMEOUT\n");
-  //   HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
-  //   break;
-
-  //   default:
-  //     strcpy(msg, "CAN RECEPTION DEFAULT\n");
-  //     HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
-  //     break;
-
-  // }
-  return 0;// (m_rx_msg->Data);
-  
+	g_nb_msg_received -- ;
+ 	return m_rx_msg.Data; 
 }
 
-uint8_t* Can::get_rx_msg()
+uint16_t Can::available()
 {
-	return m_rx_msg.Data;
-}
+	HAL_StatusTypeDef _can_status;
+ 	_can_status = HAL_CAN_Receive_IT(m_can_interface_ptr, CAN_FIFO0);
 
-uint8_t* Can::get_tx_msg()
-{
-	return m_tx_msg.Data;
-}
+ 	// bool _new_msg = !check_eq_msgs(prev_msg,m_rx_msg.Data,8);
+	//if (_new_msg)
+	if ( g_nb_msg_received > 0 )
+	{
+		copy_msg(prev_msg,m_rx_msg.Data,8);
+	}
 
+	return g_nb_msg_received;
+}
 /** Private Methods **/
-/*********************/
+/********************/
+
+bool Can::check_eq_msgs(uint8_t* msg1, uint8_t* msg2,uint8_t size)
+{
+	bool is_equal = true ;
+	for ( uint8_t i = 0; i< size; i++)
+	{
+		if (msg1[i] != msg2[i])
+		{
+			is_equal = false;
+			break;
+		}
+		
+	}
+
+	return is_equal;
+}
+
+void Can::copy_msg(uint8_t* dest,uint8_t* src, uint8_t size)
+{
+	for( int i = 0; i < size; i++)
+	{
+		dest[i] = src[i];
+	} 
+}
+
