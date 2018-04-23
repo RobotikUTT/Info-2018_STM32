@@ -133,7 +133,7 @@ class String;
 #define MAX_AUTOSEND_SIZE (24)
 #endif
 
-extern unsigned char flagArduinoConnected;
+extern bool flagConnected;
 extern Serial g_serial;
 void parseAndExecuteOrder(uint8_t* message);
 uint8_t getLog10(const uint16_t number);

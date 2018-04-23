@@ -70,7 +70,7 @@ uint8_t getLog10(const uint16_t number) {
     return 1;
 }
 
-unsigned char flagArduinoConnected = 0;
+bool flagConnected = false;
 
 //order is order;id_servo;params
 void parseAndExecuteOrder(uint8_t* message) {
@@ -145,8 +145,8 @@ void parseAndExecuteOrder(uint8_t* message) {
                     g_serial.print("STOP");
                     g_serial.print("\n");
 #endif
-                    CanSender::canSend(WHOAMI,CAN_ADDR);
-                    flagArduinoConnected = 0;
+                    //CanSender::canSend(WHOAMI,CAN_ADDR);
+                    flagConnected = false;
                     break;
                 }
                 case START:
@@ -156,7 +156,7 @@ void parseAndExecuteOrder(uint8_t* message) {
                     g_serial.print("\n");
 #endif
                     CanSender::canSend(1,32);
-                    flagArduinoConnected = 1;
+                    flagConnected = true;
 
                     // RobotStateSetPos(207, 207, 1.571);
 
@@ -577,6 +577,13 @@ void parseAndExecuteOrder(uint8_t* message) {
             control.rot_spd_ratio = r;
             control.max_acc = a;
             break;
+        }
+
+        default:
+        {
+#ifdef SERIAL_DEBUG
+            g_serial.print("default handling\n");
+#endif SERIAL_DEBUG
         }
 
         
