@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 #include "parameters.h"
-#define MAX_GOALS 15 //nombre max de goals dans la file, évite surcharge mémoire
+#define MAX_GOALS 100 //nombre max de goals dans la file, évite surcharge mémoire
 
 #define TYPE_POS 1
 #define TYPE_ANG 2
