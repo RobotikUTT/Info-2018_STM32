@@ -87,7 +87,7 @@ void parseAndExecuteOrder(uint8_t* message) {
             g_serial.print("HANDSHAKE");
             g_serial.print("\n");
 #endif
-            CanSender::canSend(WHOAMI,16);
+            CanSender::canSend(WHOAMI,STM_CAN_ADDR);
             break;
         }
 
@@ -155,10 +155,10 @@ void parseAndExecuteOrder(uint8_t* message) {
                     g_serial.print("START");
                     g_serial.print("\n");
 #endif
-                    CanSender::canSend(1,32);
+                    //CanSender::canSend(1,32);
                     flagConnected = true;
 
-                    // RobotStateSetPos(207, 207, 1.571);
+                    // RobotStateSetPos(210, 210, 1.571);
 
                     // goal_data_t goal;
 
@@ -260,7 +260,12 @@ void parseAndExecuteOrder(uint8_t* message) {
                     // goal.ang_data = {3.141, 1};
                     // FifoPushGoal(order_id, TYPE_ANG, goal);
 
-                    // goal.pos_data = {207, 207, 0};
+                    // goal.pos_data = {400, 500, 0};
+                    // FifoPushGoal(order_id, TYPE_POS, goal);
+                    // goal.ang_data = {3.141, 1};
+                    // FifoPushGoal(order_id, TYPE_ANG, goal);
+
+                    // goal.pos_data = {210, 210, 0};
                     // FifoPushGoal(order_id, TYPE_POS, goal);
                     // goal.ang_data = {1.571, 1};
                     // FifoPushGoal(order_id, TYPE_ANG, goal);
