@@ -113,6 +113,12 @@ void CanSender::canSend(uint8_t mode, ...)
                 message[6] = r_wheel_spd & 0x00FF;
                 break;
 
+            case ORDER_COMPLETED:
+            {
+                message[0] = ORDER_COMPLETED;
+                break;
+            }
+
             default:
                 break;
 
