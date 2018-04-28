@@ -71,7 +71,7 @@ UART_HandleTypeDef huart2;
 Serial g_serial(&huart2);
 Pwm g_right_pwm(&htim16);
 Pwm g_left_pwm(&htim17);
-Can g_can(&hcan,15);
+Can g_can(&hcan,BBB_CAN_ADDR);
 
 
 
@@ -106,7 +106,7 @@ void blink(void);
 
 /* USER CODE BEGIN 0 */
 Timer asservLoopTimer = Timer((int) 1000.0*DT, &asservLoop);
-Timer asservStatusTimer = Timer(500, &asservStatus);
+Timer asservStatusTimer = Timer(AUTO_STATUS_DT, &asservStatus);
 Timer blinkTimer = Timer(100, &blink);
 /* USER CODE END 0 */
 
@@ -174,13 +174,12 @@ int main(void)
   {
     blinkTimer.Update();
     if (!flagConnected) {
-        //SerialSender::SerialSend(SERIAL_INFO, "%s", ARDUINO_ID);
-        readOrder();
+        
     } else {
         asservLoopTimer.Update();
         asservStatusTimer.Update();
-        // asservSerialReadTimer.Update();
     }
+    readOrder();
     CanSender::canSendTask();
     
   /* USER CODE END WHILE */
@@ -302,7 +301,7 @@ static void MX_TIM2_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 1;
+  htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 0xFFFF;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -338,7 +337,7 @@ static void MX_TIM3_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 1;
+  htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 0xFFFF;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -543,12 +542,13 @@ void asservLoop(){
 }
 
 void asservStatus() {
-    readOrder();
     ProtocolAutoSendStatus();
 }
 
 void readOrder()
 {
+  // g_serial.print(g_can.available());
+  // g_serial.print("\n");
   if (g_can.available() > 0 ) 
   {
     parseAndExecuteOrder(g_can.read());
