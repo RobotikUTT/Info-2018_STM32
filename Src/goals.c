@@ -4,6 +4,7 @@
  * Date : 13/10/13      		*
  ****************************************/
 #include "goals.h"
+#include "canSender.h"
 
 fifo_t fifo;
 
@@ -52,6 +53,10 @@ goal_t* FifoNextGoal() {
 		current_goal->is_reached = 0;
 		fifo.current_goal = (fifo.current_goal + 1) % MAX_GOALS;
 		fifo.nb_goals--;
+		if (fifo.nb_goals == 0)
+		{
+			CanSender::canSend(ORDER_COMPLETED);
+		}
 	}
 	return FifoCurrentGoal();
 }
