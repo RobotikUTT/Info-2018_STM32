@@ -5,12 +5,13 @@
 /**************/
 #include "stm32f3xx_hal.h"
 #include "stm32f3xx_hal_can.h"
+#include "QueueList.h"
 /** Defines **/
 /*************/
 
 
 /** Class Descritpion **/
-extern uint16_t g_nb_msg_received;
+
 class Can
 {
 	private:
@@ -18,6 +19,7 @@ class Can
 		CanTxMsgTypeDef m_tx_msg;
 		CanRxMsgTypeDef m_rx_msg;
 		uint8_t prev_msg[8]= {0,0,0,0,0,0,0,0};
+		QueueList<uint8_t> fifo;
 
 		
 
