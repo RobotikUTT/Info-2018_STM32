@@ -304,8 +304,7 @@ void parseAndExecuteOrder(uint8_t* message) {
                     g_serial.print("EMGSTOP");
                     g_serial.print("\n");
 #endif
-                    int enable = message[1];
-                    EmergencySetStatus(enable);
+                    EmergencySetStatus(1);
                     break;
                 }
                 case NEXT_ORDER:
@@ -327,6 +326,15 @@ void parseAndExecuteOrder(uint8_t* message) {
                     FifoClearGoals();
                     ControlPrepareNewGoal();
                     break;
+                }
+                case UNSETEMERGENCYSTOP:
+                {
+#ifdef SERIAL_DEBUG
+                    g_serial.print("RESET EMGSTOP");
+                    g_serial.print("\n");
+#endif
+                    EmergencySetStatus(0);
+
                 }
             }
 
