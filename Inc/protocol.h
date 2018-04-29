@@ -24,6 +24,7 @@
 #define SETEMERGENCYSTOP 	5
 #define NEXT_ORDER			6
 #define RESET_ORDERS		7
+#define UNSETEMERGENCYSTOP	8
 
 #define HANDSHAKE			0
 #define WHOAMI				1
