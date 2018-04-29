@@ -1,10 +1,7 @@
 build/
-Drivers/
 *.ioc
 *.sublime-project
 *.sublime-workspace
-*.s
-*.ld
 *.mxproject
 
 User/
