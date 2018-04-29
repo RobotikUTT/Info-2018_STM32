@@ -17,6 +17,11 @@ void EmergencySetStatus(int enable) {
 		emergency_status[EM_FORWARD].phase = NO_EMERGENCY;
 		emergency_status[EM_BACKWARD].phase = NO_EMERGENCY;
 	}
+	else
+	{
+		emergency_status[EM_FORWARD].phase = FIRST_STOP;
+		emergency_status[EM_BACKWARD].phase = FIRST_STOP;
+	}
 }
 
 void ComputeEmergency(void) {
