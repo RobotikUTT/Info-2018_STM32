@@ -52,6 +52,7 @@
 #define OBJECT_ON_MAP		25
 #define ORDER_COMPLETED		26
 #define SET_SERVO			27
+#define ROBOT_BLOCKED		28
 
 // END CAN ORDERS
 #define AUTO_SEND	'~'		// x(int);y(int);a(decimal)
