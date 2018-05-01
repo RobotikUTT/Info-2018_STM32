@@ -3,6 +3,9 @@
 #include "robotstate.h"
 #include "goals.h"
 #include "compat.h"
+#include "canSender.h"
+#include "control.h"
+#include "protocol.h"
 
 void ComputeIsBlocked(void) {
 #if BLOCK_TIME
@@ -15,8 +18,19 @@ void ComputeIsBlocked(void) {
 
 	now = timeMillis();
 	if (now - last_time < BLOCK_TIME)
+	{
 		return;
+	}
+	
+
 	last_time = now;
+
+	if ( (control.status_bits & EMERGENCY_BIT) || 
+		(control.status_bits & PAUSE_BIT) ||
+		(control.status_bits & TIME_ORDER_BIT) )
+	{
+		return;
+	}
 
 	current_goal = FifoCurrentGoal();
 	if (current_goal->type == NO_GOAL || 
@@ -36,7 +50,9 @@ void ComputeIsBlocked(void) {
 	if (dist < BLOCK_MIN_DIST) {
 		// we did not move enough, we are probably blocked, 
 		// consider the goal reached
-		current_goal->is_reached = 1;
+		//current_goal->is_reached = 1;
+		CanSender::canSend(ROBOT_BLOCKED);
+		FifoClearGoals();
 	}
 end:
 	last_pos = current_pos;
