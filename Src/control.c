@@ -3,16 +3,23 @@
  * Mail : quentin.chateau@gmail.com	*
  * Date : 29/11/13			*
  ****************************************/
-
+//#include <math.h>
 #include "encoder.h"
 #include "robotstate.h"
 #include "goals.h"
 #include "control.h" 
 #include "compat.h"
 #include "motor.h"
-#include "local_math.h"
+// #include "local_math.h"
 #include "emergency.h"
-#include <math.h>
+#include "protocol.h"
+#include "canSender.h"
+
+#define min(a,b) \
+   ({ __typeof__ (a) _a = (a); \
+       __typeof__ (b) _b = (b); \
+     _a < _b ? _a : _b; })
+
 
 #define ANG_REACHED (0x1)
 #define POS_REACHED (0x2)
@@ -90,25 +97,27 @@ void ControlCompute(void) {
 	ControlUnsetStop(EMERGENCY_BIT);
 	ControlUnsetStop(SLOWGO_BIT);
 	
-	if (ABS(control.speeds.linear_speed) > 1) {
-		int direction;
-		if (control.speeds.linear_speed > 0) {
-			direction = EM_FORWARD;
-		} else {
-			direction = EM_BACKWARD;
-		}
+	//if (ABS(control.speeds.linear_speed) > 1) {
+		// int direction;
+		// if (control.speeds.linear_speed >= 0) {
+		// 	direction = EM_FORWARD;
+		// } else {
+		// 	direction = EM_BACKWARD;
+		// }
 
-		if (emergency_status[direction].phase == FIRST_STOP) {
-			ControlSetStop(EMERGENCY_BIT);
-		} else if (emergency_status[direction].phase == SLOW_GO) {
-			ControlSetStop(SLOWGO_BIT);
-		}
+	if (emergency_status[EM_FORWARD].phase == FIRST_STOP ||
+		emergency_status[EM_BACKWARD].phase == FIRST_STOP) {
+		ControlSetStop(EMERGENCY_BIT);
+	} else if (emergency_status[EM_FORWARD].phase == SLOW_GO ||
+			   emergency_status[EM_BACKWARD].phase == SLOW_GO) {
+		ControlSetStop(SLOWGO_BIT);
 	}
+	//}
 
 
-	if (control.status_bits & EMERGENCY_BIT || 
-		control.status_bits & PAUSE_BIT ||
-		control.status_bits & TIME_ORDER_BIT) {
+	if (control.status_bits & EMERGENCY_BIT  || 
+		control.status_bits & PAUSE_BIT      ||
+		control.status_bits & TIME_ORDER_BIT ) {
 		stopRobot();
 	} else {
 		switch (current_goal->type) {
@@ -137,6 +146,12 @@ void ControlCompute(void) {
         // Instead of calling SerialSend directly (does not work), we use a global variable to send the id from main
 //        SerialSendWrapVar(SERIAL_INFO, "%d;", (int)control.last_finished_id);
         lastReachedID = control.last_finished_id;
+
+        if ( FifoRemainingGoals() == 0)
+        {
+			CanSender::canSend(ORDER_COMPLETED);
+        }
+
 		FifoNextGoal();
 		ControlPrepareNewGoal();
 #if TIME_BETWEEN_ORDERS
