@@ -5,7 +5,9 @@
  * \date	06/12/2016
  * \copyright Copyright (c) 2016 UTCoupe All rights reserved.
  */
-
+#include <stdarg.h>
+#include <stdint.h>
+#include "protocol.h"
 #include "canSender.h"
 #include "parameters.h"
 
@@ -25,7 +27,7 @@ CanSender::CanSender() {
 
 void CanSender::canSend(uint8_t mode, ...)
 {
-    uint8_t i, j, count = 0;
+   
     uint8_t message[] = {0, 0, 0, 0, 0, 0, 0, 0};
     // String serialData, tmpString = "";
         va_list argv;
@@ -117,6 +119,11 @@ void CanSender::canSend(uint8_t mode, ...)
             {
                 message[0] = ORDER_COMPLETED;
                 break;
+            }
+
+            case ROBOT_BLOCKED:
+            {
+                message[0] = ROBOT_BLOCKED;
             }
 
             default:

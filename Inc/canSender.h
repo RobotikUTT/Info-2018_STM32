@@ -9,13 +9,13 @@
 #ifndef CAN_SENDER_H
 #define CAN_SENDER_H
 
-#include <stdarg.h>
-#include <stdint.h>
 #include "QueueList.h"
 #include "can.h"
-#include "serial.h"
-#include "protocol.h"
-#include "stm32f3xx_hal.h"
+//#include "serial.h"
+
+
+
+//#include "stm32f3xx_hal.h"
 
 #ifndef SENDER_ENUM
 #define SENDER_ENUM
@@ -54,7 +54,7 @@ typedef enum
 // }canProtocolEnum;
 
 extern Can g_can;
-extern Serial g_serial;
+//extern Serial g_serial;
 
 class CanSender
 {
