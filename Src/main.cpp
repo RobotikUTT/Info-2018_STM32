@@ -526,7 +526,7 @@ static void MX_GPIO_Init(void)
 void asservLoop(){
 
   //Action asserv
-  ComputeEmergency();
+  //ComputeEmergency();
   ComputeIsBlocked();
   ControlCompute();
 
