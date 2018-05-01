@@ -61,7 +61,7 @@ float PIDCompute(PID_t *pid, float error) {
 	pid->output = P_part + I_part + D_part ;
 
 	//nothing happens if pid->output == 0
-	if (pid->output >= 0)
+	if (pid->output > 0)
 	{
 		pid->output += bias;
 		//pid->output = map(pid->output,0,255,bias,255);
