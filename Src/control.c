@@ -146,8 +146,11 @@ void ControlCompute(void) {
         // Instead of calling SerialSend directly (does not work), we use a global variable to send the id from main
 //        SerialSendWrapVar(SERIAL_INFO, "%d;", (int)control.last_finished_id);
         lastReachedID = control.last_finished_id;
-
-        if ( FifoRemainingGoals() == 0)
+#if KEEP_LAST_GOAL
+        if ( FifoRemainingGoals() == 2)
+#else
+        if ( FifoRemainingGoals() == 1)
+#endif
         {
 			CanSender::canSend(ORDER_COMPLETED);
         }
