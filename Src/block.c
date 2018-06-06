@@ -50,9 +50,9 @@ void ComputeIsBlocked(void) {
 	if (dist < BLOCK_MIN_DIST) {
 		// we did not move enough, we are probably blocked, 
 		// consider the goal reached
-		//current_goal->is_reached = 1;
+		current_goal->is_reached = 1;
 		CanSender::canSend(ROBOT_BLOCKED);
-		FifoClearGoals();
+		//FifoClearGoals();
 	}
 end:
 	last_pos = current_pos;
