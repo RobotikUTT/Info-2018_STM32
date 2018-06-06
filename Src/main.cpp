@@ -162,6 +162,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   init_encoders();
+  g_can.init();
   g_right_pwm.set_timer_freq(32000);
   g_left_pwm.set_timer_freq(32000);
 
@@ -542,6 +543,8 @@ void readOrder()
   // g_serial.print("\n");
   if (g_can.available() > 0 ) 
   {
+    if ( g_can.getFrameAddress() == ALL_CAN_ADDR ||
+          g_can.getFrameAddress() == STM_CAN_ADDR)
     parseAndExecuteOrder(g_can.read());
   }
 }
