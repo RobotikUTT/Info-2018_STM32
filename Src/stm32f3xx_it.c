@@ -241,7 +241,7 @@ void USART2_IRQHandler(void)
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan)
 {
   g_nb_msg_received ++;
-  // HAL_CAN_Receive_IT(hcan, CAN_FIFO0);
+  //HAL_CAN_Receive_IT(hcan, CAN_FIFO0);
   // if (HAL_CAN_Receive_IT(CanHandle, CAN_FIFO0) != HAL_OK)
   // {
     // __HAL_CAN_ENABLE_IT(hcan, CAN_IT_FOV0 | CAN_IT_FMP0);  // set interrupt flag for RX FIFO0 if CAN locked
