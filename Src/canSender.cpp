@@ -118,6 +118,7 @@ void CanSender::canSend(uint8_t mode, ...)
             case ORDER_COMPLETED:
             {
                 message[0] = ORDER_COMPLETED;
+                message[1] = 0;
                 break;
             }
 
