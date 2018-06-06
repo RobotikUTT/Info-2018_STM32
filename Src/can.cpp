@@ -29,6 +29,8 @@ Can::Can(CAN_HandleTypeDef* can, uint16_t id)
 	m_can_interface_ptr->pRxMsg = &m_rx_msg;
 	copy_msg(m_tx_msg.Data,prev_msg,8);
 
+	
+
 }
 
 Can::~Can()
@@ -66,6 +68,16 @@ uint16_t Can::available()
 	}
 
 	return g_nb_msg_received;
+}
+
+void Can::init()
+{
+	HAL_CAN_Receive_IT(m_can_interface_ptr, CAN_FIFO0);
+}
+
+uint32_t Can::getFrameAddress()
+{
+	return m_rx_msg.StdId;
 }
 /** Private Methods **/
 /********************/

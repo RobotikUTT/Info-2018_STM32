@@ -34,6 +34,8 @@ class Can
 		HAL_StatusTypeDef write(uint8_t* msg);
 		// uint8_t* get_rx_msg();
 		uint16_t available();
+		void init();
+		uint32_t getFrameAddress();
 
 };
 
