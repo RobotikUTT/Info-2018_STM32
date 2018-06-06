@@ -157,118 +157,6 @@ void parseAndExecuteOrder(uint8_t* message) {
 #endif
                     //CanSender::canSend(1,32);
                     flagConnected = true;
-
-                    // RobotStateSetPos(210, 210, 1.571);
-
-                    // goal_data_t goal;
-
-                    // goal.pos_data = {235, 860, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {0, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {365, 860, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {0, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {240, 850, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {0, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {240, 500, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {0, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {550, 500, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {1.571, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {550, 675, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {1.571, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {535, 500, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {3.1415, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {200, 500, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {3.1415, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {840, 500, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {3.1415, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.ang_data = {1.571, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {840, 850, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {3.1415, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {720, 850, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {3.141, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {840, 850, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {-1.571, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {840, 500, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {-3.1415, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {207, 500, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {3.1415, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {535, 500, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {1.571, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {535, 735, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {1.571, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {535, 785, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {1.571, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {535, 500, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {3.141, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {200, 500, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {3.141, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {400, 500, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {3.141, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
-
-                    // goal.pos_data = {210, 210, 0};
-                    // FifoPushGoal(order_id, TYPE_POS, goal);
-                    // goal.ang_data = {1.571, 1};
-                    // FifoPushGoal(order_id, TYPE_ANG, goal);
                     break;
                 }
                 case PAUSE:
@@ -359,14 +247,14 @@ void parseAndExecuteOrder(uint8_t* message) {
 
             direction = message[7];
 
-            // g_serial.print(x);
-            // g_serial.print("\n");
-            // g_serial.print(y);
-            // g_serial.print("\n");
-            // g_serial.print(a_int);
-            // g_serial.print("\n");
-            // g_serial.print(direction);
-            // g_serial.print("\n");
+            g_serial.print(x);
+            g_serial.print("\n");
+            g_serial.print(y);
+            g_serial.print("\n");
+            g_serial.print(a_int);
+            g_serial.print("\n");
+            g_serial.print(direction);
+            g_serial.print("\n");
 
             a = a_int / (float)FLOAT_PRECISION;
             goal_data_t goal;
