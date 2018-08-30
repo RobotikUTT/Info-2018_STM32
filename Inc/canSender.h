@@ -54,18 +54,13 @@ typedef enum
 // }canProtocolEnum;
 
 extern Can g_can;
-//extern Serial g_serial;
 
 class CanSender
 {
 public:
     CanSender();
     ~CanSender() {}
-    //to be used everywhere
-    //todo check why its only working with minimal 1 variadic argument
     static void canSend(uint8_t mode, ...);
-    // static void static void canSend(canProtocolEnum mode, String data);
-    //to be used in the task
     static void canSendTask();
 private:
     // static String CharArrayToString(const char * str, uint8_t size);
