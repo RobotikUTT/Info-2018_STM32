@@ -26,7 +26,6 @@ extern "C" void EmergencySetStatus(int enable);
 extern "C" void ComputeEmergency(void);
 #else
 void EmergencySetStatus(int enable);
-void ComputeEmergency(void);
 #endif
 
 #endif
