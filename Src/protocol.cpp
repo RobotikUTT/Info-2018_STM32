@@ -246,7 +246,7 @@ void parseAndExecuteOrder(uint8_t* message) {
             a_int =     message[5] << 8 | message[6];
 
             direction = message[7];
-
+#ifdef SERIAL_DEBUG
             g_serial.print(x);
             g_serial.print("\n");
             g_serial.print(y);
@@ -255,7 +255,7 @@ void parseAndExecuteOrder(uint8_t* message) {
             g_serial.print("\n");
             g_serial.print(direction);
             g_serial.print("\n");
-
+#endif
             a = a_int / (float)FLOAT_PRECISION;
             goal_data_t goal;
             goal.pos_data = {x, y, direction};
